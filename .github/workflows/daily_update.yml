@@ -1,0 +1,35 @@
+name: Daily Intelligence Auto Update
+
+on:
+  schedule:
+    # 每天 UTC 16:05 (即北京时间凌晨 00:05) 自动定时执行
+    - cron: '5 16 * * *'
+  workflow_dispatch: # 支持在 GitHub 网页一键随时手动触发！
+
+permissions:
+  contents: write
+
+jobs:
+  update-content:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Run Auto Updater
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python update_content.py
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto update daily intelligence [$(date +'%Y-%m-%d')]" && git push)
