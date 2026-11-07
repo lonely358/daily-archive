@@ -1021,6 +1021,175 @@
       }
     }
     
+  
+    /* ================= 完美对齐与防长短不一核心样式 ================= */
+    
+    /* 1. 统一历史与名流为三列等宽网格（彻底告别空缺与断行乱象） */
+    #historyGrid, #celebrityGrid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 20px !important;
+      grid-auto-rows: 1fr; /* 整行等高 */
+    }
+
+    /* 2. 要闻统一为两列规整大卡片 */
+    #newsGrid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 20px !important;
+      grid-auto-rows: 1fr;
+    }
+
+    /* 3. 猎奇档案等宽自动流 */
+    #curiosityGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+      gap: 16px !important;
+      grid-auto-rows: 1fr;
+    }
+
+    /* 4. 清除所有历史遗留的 col- 干扰，所有卡片强制占满自身单元格 */
+    .history-item, .celeb-item, .news-item {
+      grid-column: span 1 !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* 5. 卡片盒子强制等高、底栏死死贴底 */
+    .card-clickable {
+      background: var(--apple-card-solid);
+      border: 1px solid var(--apple-border);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      box-shadow: var(--apple-shadow-sm);
+      transition: transform 0.22s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.22s, border-color 0.22s;
+      position: relative;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      cursor: pointer;
+      overflow: hidden;
+      height: 100% !important;
+      min-height: 220px !important;
+      box-sizing: border-box !important;
+    }
+
+    /* 6. 标题统一规范：固定两行高度，单行两行彻底对齐 */
+    .card-title {
+      font-size: 16px !important;
+      font-weight: 700 !important;
+      line-height: 1.45 !important;
+      color: var(--apple-text-main);
+      margin-bottom: 10px !important;
+      letter-spacing: -0.015em;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+      min-height: 46px !important; /* 强制两行高度统一 */
+      max-height: 46px !important;
+    }
+
+    /* 7. 摘要导读统一规范：固定两行高度，超出截断 */
+    .card-desc {
+      font-size: 13px !important;
+      color: var(--apple-text-secondary);
+      line-height: 1.55 !important;
+      margin-bottom: 14px !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+      min-height: 40px !important; /* 强制两行高度统一 */
+      max-height: 40px !important;
+    }
+
+    /* 8. 标签栏固定高度，消除微小位移 */
+    .country-tag, .card-tag {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      padding: 3px 8px !important;
+      border-radius: 6px !important;
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      margin-bottom: 12px !important;
+      height: 24px !important;
+      box-sizing: border-box !important;
+    }
+
+    /* 9. 底部复制栏永远贴齐底边对齐 */
+    .card-footer {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      font-size: 12px !important;
+      color: var(--apple-text-sub);
+      border-top: 1px solid var(--apple-border-light);
+      padding-top: 12px !important;
+      margin-top: auto !important; /* 贴紧最底部 */
+    }
+
+    /* 10. 猎奇档案卡片同样整齐等高 */
+    .curiosity-card {
+      background: var(--apple-card-solid);
+      border: 1px solid var(--apple-border);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      box-shadow: var(--apple-shadow-sm);
+      transition: all 0.22s ease;
+      cursor: pointer;
+      position: relative;
+      display: flex !important;
+      flex-direction: column !important;
+      border-left: 3px solid var(--theme-green);
+      height: 100% !important;
+      min-height: 170px !important;
+      box-sizing: border-box !important;
+    }
+    .curiosity-title {
+      font-size: 15px !important;
+      font-weight: 700 !important;
+      line-height: 1.4 !important;
+      margin-bottom: 8px !important;
+      padding-right: 28px;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+      min-height: 42px !important;
+      max-height: 42px !important;
+    }
+    .curiosity-summary {
+      font-size: 13px !important;
+      line-height: 1.5 !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+      min-height: 38px !important;
+      max-height: 38px !important;
+      margin-bottom: 10px;
+    }
+    .curiosity-footer {
+      margin-top: auto !important;
+    }
+
+    /* 11. 移动端与平板自适应断点 */
+    @media (max-width: 1080px) {
+      #historyGrid, #celebrityGrid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+    }
+    @media (max-width: 768px) {
+      #historyGrid, #celebrityGrid, #newsGrid, #curiosityGrid {
+        grid-template-columns: 1fr !important;
+      }
+      .content-wrapper {
+        padding: 0 16px 60px !important;
+      }
+    }
+
   </style>
 </head>
 <body>
